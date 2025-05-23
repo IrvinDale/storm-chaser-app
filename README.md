@@ -1,50 +1,60 @@
-# Welcome to your Expo app 👋
+# 🌪️ Storm Chaser App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application for hobbyist meteorologists to document and track storm events using weather data, camera integration, geolocation, and local data persistence.
 
-## Get started
+Built with **React Native (Expo)** in under 24 hours as part of the Speer Technologies Mobile Development Assessment.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Features
 
-2. Start the app
+- 📍 Fetches real-time weather based on device location via **Open-Meteo API**
+- 📷 Captures storm event photos using the device camera
+- 📝 Adds rich metadata: temperature, wind speed, precipitation, location, storm type, and custom notes
+- 💾 Stores storm reports locally using **AsyncStorage**
+- 📖 Displays a history of all storm reports with image and data
+- 🔄 Includes refresh and reset functionality
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 📦 Tech Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- React Native with Expo
+- TypeScript
+- AsyncStorage for local storage
+- Open-Meteo API for weather data
+- Expo Location + Camera APIs
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📱 Screens
 
-When you're ready, run:
+- **Home**: Current weather conditions (temp, wind speed, precipitation)
+- **Storm Report**: Take a photo and document storm event
+- **Storm History**: View a list of saved storm reports
+
+---
+
+## 🧪 Testing
+
+- ✅ Unit tested with Jest + Testing Library
+- Includes utility function tests (e.g., coordinate formatting)
+
+To run tests:
 
 ```bash
-npm run reset-project
+npm test
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🕒 Time Log
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Total time spent: ~22 hours
+- Planning & Setup: 2h
+- Weather & Location Integration: 3h
+- Camera + Metadata Capture: 4h
+- Local Storage & History Screen: 4h
+- UI Enhancements: 3h
+- Bug Fixes & Testing: 4h
+- README + Polish: 2h
