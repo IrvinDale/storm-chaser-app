@@ -1,6 +1,7 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Animated, Easing, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 type Weather = {
@@ -14,11 +15,12 @@ export default function HomeScreen() {
   const [weather, setWeather] = useState<Weather | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-
+  const fadeAnim = useState(new Animated.Value(0))[0];
 
   // fetch weather data
   const fetchWeather = async () => {
     try {
+      setLoading(true);
       setError('');
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -67,18 +69,32 @@ export default function HomeScreen() {
     fetchWeather();
   }, []);
 
+  // Fade in animation
+  useEffect(() => {
+  if (!loading && !error) {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 600,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  } else {
+    fadeAnim.setValue(0); // Reset for re-run
+  }
+}, [loading, error]);
+
     if (error) {
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>{error}</Text>
-        <Button title="Retry" onPress={fetchWeather} />
       </View>
     );
   }
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
+        <ActivityIndicator size="large" color="#623CEA" />
+        <Text style={styles.loadingText}>Fetching weather data...</Text>
       </View>
     );
   }
@@ -87,19 +103,27 @@ export default function HomeScreen() {
 
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Current Weather</Text>
-      {weather ? (
-        <>
-          <Text style={styles.label}>Temperature: {weather.temperature}°C</Text>
-          <Text style={styles.label}>Wind Speed: {weather.windSpeed} km/h</Text>
-          <Text style={styles.label}>Precipitation: {weather.precipitation} mm</Text>
-        </>
-      ) : (
-        <Text style={styles.label}>No weather data available.</Text>
-      )}
-      <Button color="#0a7ea4" title="Refresh" onPress={fetchWeather} />
-    </View>
+    <LinearGradient
+      colors={['#E9F1F7', '#E7DFC6']}
+      style={styles.container}
+    >      
+    <Animated.View style={{ opacity: fadeAnim, width: '100%', alignItems: 'center' }}>
+        <Text style={styles.title}>Storm Chaser</Text>
+        <Text style={styles.header}>Current Weather</Text>
+        {weather ? (
+          <>
+            <Text style={styles.label}>Temperature: {weather.temperature}°C</Text>
+            <Text style={styles.label}>Wind Speed: {weather.windSpeed} km/h</Text>
+            <Text style={styles.label}>Precipitation: {weather.precipitation} mm</Text>
+          </>
+        ) : (
+          <Text style={styles.label}>No weather data available.</Text>
+        )}
+        <TouchableOpacity style={styles.refreshButton} onPress={fetchWeather}>
+          <Text style={styles.refreshText}>Refresh</Text>
+        </TouchableOpacity>
+      </Animated.View>
+    </LinearGradient>
   );
 }
 
@@ -111,14 +135,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
   },
-  header: {
-    fontSize: 24,
+  title: {
+    fontSize: 30,
     fontWeight: 'bold',
+    color: '#623CEA',
+    marginBottom: 16,
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: '600', // updated from 400
     marginBottom: 20,
+    color: '#54426B',  // use palette
   },
   label: {
     fontSize: 18,
-    marginVertical: 8,
+    marginVertical: 6,
+    color: '#333',
   },
   errorText: {
     color: 'red',
@@ -130,5 +162,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-
+  refreshButton: {
+  backgroundColor: '#623CEA',
+  paddingVertical: 12,
+  paddingHorizontal: 32,
+  borderRadius: 8,
+  marginTop: 24,
+},
+refreshText: {
+  color: '#E9F1F7',
+  fontWeight: '600',
+  fontSize: 16,
+},
 });
