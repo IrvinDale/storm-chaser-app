@@ -35,7 +35,7 @@ Built with **React Native (Expo)** in under 24 hours as part of the Speer Techno
 
 ---
 
-🏃 Running the App
+## 🏃 Running the App
 
 1. 📦 Install Dependencies
 
