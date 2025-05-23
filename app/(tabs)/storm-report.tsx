@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CameraView as Camera, CameraType, useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
 import { useRef, useState } from 'react';
@@ -35,21 +36,40 @@ export default function StormReportScreen() {
     }
   };
 
-  const submitReport = () => {
+  const submitReport = async () => {
     if (!photoUri) return Alert.alert("No photo taken");
 
     const report = {
-      photoUri,
-      location,
-      weather,
-      notes,
-      stormType,
-      timestamp: new Date().toISOString()
+    photoUri,
+    location,
+    weather,
+    notes,
+    stormType,
+    date: new Date().toLocaleString()
     };
 
-    console.log("📤 Submitted report:", report);
-    Alert.alert("Report submitted successfully!");
 
+    // Save report to AsyncStorage
+    try {
+    const existing = await AsyncStorage.getItem('stormReports');
+    const parsed = existing ? JSON.parse(existing) : [];
+
+    if (!Array.isArray(parsed)) {
+        console.warn('Overwriting invalid non-array stormReports:', parsed);
+        await AsyncStorage.setItem('stormReports', JSON.stringify([report]));
+    } else {
+        parsed.push(report);
+        await AsyncStorage.setItem('stormReports', JSON.stringify(parsed));
+        Alert.alert(
+            "Storm Report Saved",
+            "Your storm documentation has been successfully submitted.",
+            [{ text: "OK" }]
+        );
+    }
+    console.log("✅ Report saved successfully.");
+    } catch (e) {
+    console.error('❌ Failed to save report', e);
+    }
     // Reset form
     setPhotoUri(null);
     setNotes('');
@@ -157,6 +177,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   input: {
+    color: '#000',
+    backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
