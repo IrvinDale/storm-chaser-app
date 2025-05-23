@@ -35,6 +35,31 @@ Built with **React Native (Expo)** in under 24 hours as part of the Speer Techno
 
 ---
 
+🏃 Running the App
+
+1. 📦 Install Dependencies
+
+```bash
+npm install
+```
+
+2. ▶️ Start the Expo App
+
+```bash
+npx expo start
+```
+
+This will open the Expo Dev Tools in your browser.
+
+3. 📱 Run on Device or Emulator
+   Scan the QR code with the Expo Go app on your iOS or Android device.
+
+OR press i to open in iOS simulator, a for Android emulator (if set up).
+
+⚠️ Make sure your device or simulator has camera & location access.
+
+---
+
 ## 🧪 Testing
 
 - ✅ Unit tested with Jest + Testing Library
