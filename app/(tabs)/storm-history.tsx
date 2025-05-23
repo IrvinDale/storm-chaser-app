@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -75,6 +75,15 @@ export default function StormHistoryScreen() {
           </View>
         )}
       />
+      <TouchableOpacity
+          onPress={async () => {
+            await AsyncStorage.removeItem('stormReports');
+            setReports([]);
+          }}
+          style={styles.clearButton}
+        >
+          <Text style={styles.clearButtonText}>🗑️ Clear All Reports</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -82,5 +91,17 @@ export default function StormHistoryScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#fff' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  card: { marginBottom: 12, padding: 12, borderWidth: 1, borderColor: '#ccc', borderRadius: 8 }
+  card: { marginBottom: 12, padding: 12, borderWidth: 1, borderColor: '#ccc', borderRadius: 8 },
+  clearButton: {
+  marginTop: 16,
+  padding: 12,
+  backgroundColor: '#ff3b30',
+  borderRadius: 8,
+  alignItems: 'center',
+},
+clearButtonText: {
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: 16,
+},
 });
