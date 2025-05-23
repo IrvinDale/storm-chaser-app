@@ -91,18 +91,21 @@ export default function StormReportScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {!photoUri ? (
-        <Camera style={styles.camera} facing={facing} ref={cameraRef}>
-          <TouchableOpacity style={styles.flipButton} onPress={() => setFacing(facing === 'back' ? 'front' : 'back')}>
-            <Text style={styles.text}>Flip</Text>
-          </TouchableOpacity>
-        </Camera>
+        <>
+            <Camera style={styles.camera} facing={facing} ref={cameraRef}>
+            <TouchableOpacity style={styles.flipButton} onPress={() => setFacing(facing === 'back' ? 'front' : 'back')}>
+                <Text style={styles.text}>Flip</Text>
+            </TouchableOpacity>
+            </Camera>
+            
+            <TouchableOpacity style={styles.button} onPress={takePhoto}>
+                <Text style={styles.text}>Take Photo</Text>
+            </TouchableOpacity>
+        </>
       ) : (
         <Image source={{ uri: photoUri }} style={styles.image} />
       )}
 
-      <TouchableOpacity style={styles.button} onPress={takePhoto}>
-        <Text style={styles.text}>Take Photo</Text>
-      </TouchableOpacity>
 
       {photoUri && (
      <View style={styles.metadata}>
@@ -140,6 +143,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40
   },
   camera: {
+    flex: 1,
     height: 400,
     borderRadius: 12,
     overflow: 'hidden',

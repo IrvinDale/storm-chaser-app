@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 type StormReport = {
   photoUri?: string;
@@ -20,31 +23,33 @@ type StormReport = {
 export default function StormHistoryScreen() {
   const [reports, setReports] = useState<StormReport[]>([]);
 
-  useEffect(() => {
-    const loadReports = async () => {
-      try {
-        const stored = await AsyncStorage.getItem('stormReports');
-        console.log('Stored reports:', stored);
-        if (!stored) {
-          console.warn('stormReports in AsyncStorage is empty or not found');
-          setReports([]); // No data yet
-          return;
+  useFocusEffect(
+    useCallback(() => {
+      const loadReports = async () => {
+        try {
+          const stored = await AsyncStorage.getItem('stormReports');
+          console.log('Stored reports:', stored);
+          if (!stored) {
+            console.warn('stormReports in AsyncStorage is empty or not found');
+            setReports([]); // No data yet
+            return;
+          }
+          const parsed = JSON.parse(stored);
+          if (!Array.isArray(parsed)) {
+            console.warn('stormReports in AsyncStorage is not an array:', parsed);
+            setReports([]);
+            return;
+          }
+          setReports(parsed.reverse()); // Safely reverse if it's an array
+        } catch (e) {
+          console.error('Failed to load reports', e);
+          setReports([]); // Fallback to empty array
         }
-        const parsed = JSON.parse(stored);
-        if (!Array.isArray(parsed)) {
-          console.warn('stormReports in AsyncStorage is not an array:', parsed);
-          setReports([]);
-          return;
-        }
-        setReports(parsed.reverse()); // Safely reverse if it's an array
-      } catch (e) {
-        console.error('Failed to load reports', e);
-        setReports([]); // Fallback to empty array
-      }
-    };
+      };
 
-    loadReports();
-  }, []);
+      loadReports();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
