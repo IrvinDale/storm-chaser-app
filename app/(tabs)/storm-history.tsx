@@ -1,7 +1,8 @@
+import StormCard from '@/components/StormCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -67,16 +68,7 @@ export default function StormHistoryScreen() {
         data={reports}
         keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-          <View style={styles.card}>
-            {item.photoUri && (
-              <Image source={{ uri: item.photoUri }} style={{ height: 200, borderRadius: 8, marginBottom: 8 }} />
-            )}
-            <Text>Date: {item.date}</Text>
-            <Text>Location: {item.location?.latitude}, {item.location?.longitude}</Text>
-            <Text>Weather: {item.weather?.temperature}°C, Wind {item.weather?.windspeed} km/h</Text>
-            <Text>Storm Type: {item.stormType}</Text>
-            <Text>Notes: {item.notes}</Text>
-          </View>
+          <StormCard report={item} />
         )}
       />
       <TouchableOpacity
