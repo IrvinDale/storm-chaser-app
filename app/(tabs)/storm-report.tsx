@@ -140,7 +140,7 @@ export default function StormReportScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   camera: {
     flex: 1,
@@ -155,14 +155,14 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#623CEA',
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10
   },
   submitButton: {
-    backgroundColor: '#34C759',
+    backgroundColor: '#623CEA',
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',

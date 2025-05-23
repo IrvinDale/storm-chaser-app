@@ -36,7 +36,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="storm-report"
         options={{
-          title: 'Storm Report',
+          title: 'Report a Storm',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="info" color={color} />,
         }}
       />
