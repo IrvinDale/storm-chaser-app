@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import { CameraView as Camera, CameraType, useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function StormReportScreen() {
@@ -13,6 +14,16 @@ export default function StormReportScreen() {
   const [notes, setNotes] = useState('');
   const [stormType, setStormType] = useState('');
   const cameraRef = useRef<Camera | null>(null);
+  const [isCameraActive, setIsCameraActive] = useState(true);
+
+  useFocusEffect(
+        useCallback(() => {
+            setIsCameraActive(true); // re-enable when tab is focused
+            return () => {
+            setIsCameraActive(false); // disable when tab is unfocused
+            };
+        }, [])
+    );
 
   const getWeather = async (lat: number, lon: number) => {
     try {
@@ -92,12 +103,13 @@ export default function StormReportScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       {!photoUri ? (
         <>
-            <Camera style={styles.camera} facing={facing} ref={cameraRef}>
-            <TouchableOpacity style={styles.flipButton} onPress={() => setFacing(facing === 'back' ? 'front' : 'back')}>
-                <Text style={styles.text}>Flip</Text>
-            </TouchableOpacity>
-            </Camera>
-            
+            {isCameraActive && (
+                <Camera style={styles.camera} facing={facing} ref={cameraRef}>
+                <TouchableOpacity style={styles.flipButton} onPress={() => setFacing(facing === 'back' ? 'front' : 'back')}>
+                    <Text style={styles.text}>Flip</Text>
+                </TouchableOpacity>
+                </Camera>
+            )}
             <TouchableOpacity style={styles.button} onPress={takePhoto}>
                 <Text style={styles.text}>Take Photo</Text>
             </TouchableOpacity>

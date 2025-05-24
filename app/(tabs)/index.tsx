@@ -27,9 +27,13 @@ export default function HomeScreen() {
         setError('Permission to access location was denied');
         return;
       }
+
+      console.time('weather-fetch');
       const currentLocation = await Location.getCurrentPositionAsync({});
+      console.timeLog('weather-fetch', 'location acquired');
       setLocation(currentLocation);
       const { latitude, longitude } = currentLocation.coords;
+      
 
       // Fetch weather data from Open Meteo API
       // Use the latitude and longitude from the location object
@@ -37,6 +41,7 @@ export default function HomeScreen() {
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,windspeed_10m&current_weather=true&timezone=auto`
       );
       const data = await response.json();
+      console.timeLog('weather-fetch', 'data fetched');
 
       // Check if the response is ok
       // If the response is ok, set the weather data
@@ -60,7 +65,8 @@ export default function HomeScreen() {
     } catch (error) { 
       setError('Error fetching location');
       console.error('Error fetching location:', error);
-      return;
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -119,7 +125,7 @@ export default function HomeScreen() {
         ) : (
           <Text style={styles.label}>No weather data available.</Text>
         )}
-        <TouchableOpacity style={styles.refreshButton} onPress={fetchWeather}>
+        <TouchableOpacity style={styles.refreshButton} onPress={fetchWeather} disabled={loading}>
           <Text style={styles.refreshText}>Refresh</Text>
         </TouchableOpacity>
       </Animated.View>
