@@ -75,11 +75,11 @@ npm test
 
 ## 🕒 Time Log
 
-- Total time spent: ~22 hours
+- Total time spent: ~12 hours
 - Planning & Setup: 2h
-- Weather & Location Integration: 3h
-- Camera + Metadata Capture: 4h
-- Local Storage & History Screen: 4h
-- UI Enhancements: 3h
-- Bug Fixes & Testing: 4h
-- README + Polish: 2h
+- Weather & Location Integration: 2h
+- Camera + Metadata Capture: 2h
+- Local Storage & History Screen: 2h
+- UI Enhancements: 1h
+- Bug Fixes & Testing: 1h
+- README + Polish: 1h
