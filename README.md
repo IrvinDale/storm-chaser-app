@@ -2,7 +2,7 @@
 
 A mobile application for hobbyist meteorologists to document and track storm events using weather data, camera integration, geolocation, and local data persistence.
 
-Built with **React Native (Expo)** in under 24 hours as part of the Speer Technologies Mobile Development Assessment.
+Built with **React Native (Expo)** in under 24 hours.
 
 ---
 
